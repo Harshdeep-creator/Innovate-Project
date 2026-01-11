@@ -1,0 +1,61 @@
+system:
+  name: Narrative Consistency Analyzer
+  version: 1.0.0
+  track: A
+
+pathway:
+  enabled: true
+  port: 8765
+  host: localhost
+  persist_dir: pathway_data
+
+models:
+  embedding:
+    name: all-MiniLM-L6-v2
+    max_length: 512
+
+processing:
+  chunk_size: 512
+  chunk_overlap: 50
+  batch_size: 32
+  max_workers: 4
+
+analysis:
+  weights:
+    temporal: 0.25
+    thematic: 0.25
+    character: 0.20
+    semantic: 0.15
+    factual: 0.15
+  thresholds:
+    consistency: 0.60
+    confidence_high: 0.80
+    confidence_medium: 0.60
+    confidence_low: 0.40
+
+narratives:
+  The Count of Monte Cristo:
+    summary: Post-Napoleonic revenge tale of Edmond Dantès
+    period: 1815-1840s
+    themes: [revenge, betrayal, justice, imprisonment, redemption]
+    
+  In Search of the Castaways:
+    summary: Global rescue mission for Captain Grant
+    period: mid-19th century
+    themes: [adventure, rescue, exploration, perseverance, loyalty]
+
+output:
+  results_file: results.csv
+  evidence_dir: evidence_dossiers
+  log_file: analysis.log
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: logs/analysis.log
+
+performance:
+  use_cache: true
+  cache_dir: .cache
+  parallel_processing: true
+  max_processes: 4
